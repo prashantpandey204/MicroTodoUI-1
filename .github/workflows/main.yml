@@ -18,3 +18,8 @@ jobs:
         
     -   name: greetings
         run: echo "Hi i am hero"
+
+    -  name: nodeinstall
+       run: npm install 
+    -  name: listfile
+       run: ls -lrth
