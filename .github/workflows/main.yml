@@ -11,7 +11,7 @@ on: workflow_dispatch
 jobs:
   build: 
     name: demo job
-    runs-on: ubuntu-latest
+    runs-on: myrunners
     steps: 
     -  name: checkout
        uses: actions/checkout@v6.0.1
