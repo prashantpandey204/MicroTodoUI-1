@@ -6,7 +6,6 @@ on:
     branches:
       - main
       - releases/**
-
   
 jobs:
   build: 
@@ -19,16 +18,23 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
-        node-version: 18
-  
+        node-version: 16
+        
+    - name: Cache node modules
+      uses: actions/cache@v5.0.1
+      with: 
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }} 
+        
     - name: Install dependencies
       run: npm install
-      
-    - name: Cache node modules
-      uses: actions/cache@v4
-      with:
-       path: node_modules
-       key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
   
     - name: Build
       run: npm run build
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v6.0.0
+      with:
+        name: build-${{GITHUB.RUN_ID}}
+        path: build
+      
