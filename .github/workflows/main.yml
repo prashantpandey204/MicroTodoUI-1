@@ -21,6 +21,7 @@ jobs:
 
     -  name: nodeinstall
        run: npm install 
-    -  name: listfile
+    -  name: change directory
        run: cd node-modules
-       run: ls -lrth
+    -  name: list files
+       run: ls -l
