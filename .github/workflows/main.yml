@@ -11,7 +11,7 @@ on: workflow_dispatch
 jobs:
   build: 
     name: demo job
-    runs-on: myrunners
+    runs-on: self-hosted
     steps: 
     -  name: checkout
        uses: actions/checkout@v6.0.1
