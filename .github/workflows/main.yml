@@ -1,27 +1,28 @@
 
 name: MicroToDo-UI Pipeline
 
-on: workflow_dispatch
-  # push:
-  #   branches:
-  #     - main
-  #     - releases/**
+on: 
+  push:
+    branches:
+      - main
+      - releases/**
 
   
 jobs:
   build: 
     name: demo job
     runs-on: self-hosted
-    steps: 
-    -  name: checkout
-       uses: actions/checkout@v6.0.1
-        
-    -   name: greetings
-        run: echo "Hi i am hero"
-
-    -  name: nodeinstall
-       run: npm install 
-    -  name: change directory
-       run: cd node-modules
-    -  name: list files
-       run: ls -l
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+  
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+  
+    - name: Install dependencies
+      run: npm install
+  
+    - name: Build
+      run: npm run build
