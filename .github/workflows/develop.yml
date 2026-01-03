@@ -30,7 +30,6 @@ jobs:
         VALIDATE_JAVASCRIPT: true
         VALIDATE_CSS: true
         VALIDATE_YAML: true
-        VALIDATE_MARKDOWN: false
         VALIDATE_JSON: true
 
 
