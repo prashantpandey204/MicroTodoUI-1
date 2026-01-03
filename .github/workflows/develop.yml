@@ -1,0 +1,66 @@
+
+name: MicroToDo-UI Pipeline
+
+on: 
+  push:
+    branches:
+      - main
+      - releases/**
+  
+jobs:
+  lint:
+    name: Code Quality and Linting
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Super-linter
+      uses: super-linter/super-linter@v7.1.0
+      env:
+        # To report GitHub Actions status checks
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+        VALIDATE_JAVASCRIPT_BIOME: true
+        VALIDATE_CSS_STYLELINT: true
+        VALIDATE_YAML: true
+        VALIDATE_MARKDOWN: true
+        VALIDATE_JSON: true
+
+
+  build: 
+    name: demo job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+  
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 16
+        
+    # - name: Cache node modules
+    #   uses: actions/cache@v5.0.1
+    #   with: 
+    #     path: node_modules
+    #     key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }} 
+        
+    # - name: Install dependencies
+    #   run: npm install
+  
+    # - name: Build
+    #   run: npm run build
+      
+    # - name: Upload a Build Artifact
+    #   uses: actions/upload-artifact@v6.0.0
+    #   with:
+    #     name: build-${{GITHUB.RUN_ID}}
+        path: build
+      
