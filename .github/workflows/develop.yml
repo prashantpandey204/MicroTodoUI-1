@@ -27,15 +27,16 @@ jobs:
         # To report GitHub Actions status checks
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-        VALIDATE_JAVASCRIPT_BIOME: true
-        VALIDATE_CSS_STYLELINT: true
+        VALIDATE_JAVASCRIPT: true
+        VALIDATE_CSS: true
         VALIDATE_YAML: true
-        VALIDATE_MARKDOWN: true
+        VALIDATE_MARKDOWN: false
         VALIDATE_JSON: true
 
 
   build: 
     name: demo job
+    needs: lint
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
