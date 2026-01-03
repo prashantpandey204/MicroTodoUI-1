@@ -32,10 +32,25 @@ jobs:
         VALIDATE_CSS: true
         VALIDATE_YAML: true
         VALIDATE_JSON: true
+        
+  sonar-scan:
+    name: Static Code Analysis (SonarQube)
+    needs: lint
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          
   build: 
     name: Build & Artifact Packaging
-    needs: lint
+    needs: sonar-scan
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
