@@ -42,12 +42,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v2
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          # SONAR_SCANNER_OPTS: "-X"
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectKey: prashantpandey204       # <-- Replace with your SonarCloud project key
+          organization: prashantpandey204      # <-- Your org name
+          token: ${{ secrets.SONAR_TOKEN }}   # <-- Make sure this secret exists in GitHub
+
+      # - name: SonarQube Scan
+      #   uses: sonarsource/sonarqube-scan-action@v2
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      #      SONAR_SCANNER_OPTS: "-X"
 
   build: 
     name: Build & Artifact Packaging
