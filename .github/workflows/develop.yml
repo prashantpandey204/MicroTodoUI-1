@@ -41,40 +41,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # - name: SonarCloud Scan
-      #   uses: sonarsource/sonarcloud-github-action@master
-      #   with:
-      #     projectKey: prashantpandey204       # <-- Replace with your SonarCloud project key
-      #     organization: prashantpandey204      # <-- Your org name
-      #     token: ${{ secrets.SONAR_TOKEN }}   # <-- Make sure this secret exists in GitHub
-          
-      #- name: SonarCloud Scan
-        # uses: sonarsource/sonarqube-scan-action@v5
-        # env:
-        #   SONAR_HOST_URL: https://sonarcloud.io
-        #   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        #   SONAR_PROJECT_KEY: prashantpandey204
-        #   SONAR_ORGANIZATION: prashantpandey204
-
-      # - uses: SonarSource/sonarqube-scan-action@v6
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
-      # - uses: SonarSource/sonarqube-quality-gate-action@v1
-      #    timeout-minutes:5
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_SCANNER_OPTS: "-X"
+
+      # If you wish to fail your job when the Quality Gate is red, uncomment the
+      # following lines. This would typically be used to fail a deployment.
+      # - uses: SonarSource/sonarqube-quality-gate-action@v1
+      #    timeout-minutes:5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build: 
     name: Build & Artifact Packaging
