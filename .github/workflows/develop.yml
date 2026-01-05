@@ -8,44 +8,52 @@ on:
       - releases/**
   
 jobs:
-  lint:
-    name: Code Quality and Linting
-    runs-on: ubuntu-latest
-    continue-on-error: true
+  # lint:
+  #   name: Code Quality and Linting
+  #   runs-on: agent_vinod
+  #   continue-on-error: true
     
-    permissions:
-      contents: read
-      packages: read
-      # To report GitHub Actions status checks
-      statuses: write
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+  #   permissions:
+  #     contents: read
+  #     packages: read
+  #     # To report GitHub Actions status checks
+  #     statuses: write
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
       
-    - name: Super-linter
-      uses: super-linter/super-linter@v7.1.0
-      env:
-        # To report GitHub Actions status checks
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #   - name: Super-linter
+  #     uses: super-linter/super-linter@v7.1.0
+  #     env:
+  #       # To report GitHub Actions status checks
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-        VALIDATE_JAVASCRIPT: true
-        VALIDATE_CSS: true
-        VALIDATE_YAML: true
-        VALIDATE_JSON: true
+  #       VALIDATE_JAVASCRIPT: true
+  #       VALIDATE_CSS: true
+  #       VALIDATE_YAML: true
+  #       VALIDATE_JSON: true
         
   sonar-scan:
     name: Static Code Analysis (SonarQube)
-    needs: lint
-    runs-on: ubuntu-latest
+    # needs: lint
+    runs-on: agent_vinod
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
       
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+      # - name: SonarCloud Scan
+      #   uses: SonarSource/sonarcloud-github-action@v2
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+          
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: SonarSource/sonarqube-scan-action@v6
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}       
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}    
 
       # If you wish to fail your job when the Quality Gate is red, uncomment the
       # following lines. This would typically be used to fail a deployment.
@@ -54,34 +62,34 @@ jobs:
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  build: 
-    name: Build & Artifact Packaging
-    needs: sonar-scan
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+  # build: 
+  #   name: Build & Artifact Packaging
+  #   needs: sonar-scan
+  #   runs-on: agent_vinod
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
   
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 16
+  #   - name: Setup Node
+  #     uses: actions/setup-node@v4
+  #     with:
+  #       node-version: 16
         
-    - name: Cache node modules
-      uses: actions/cache@v5.0.1
-      with: 
-        path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }} 
+  #   - name: Cache node modules
+  #     uses: actions/cache@v5.0.1
+  #     with: 
+  #       path: node_modules
+  #       key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }} 
         
-    - name: Install dependencies
-      run: npm install
+  #   - name: Install dependencies
+  #     run: npm install
   
-    - name: Build Application
-      run: npm run build
+  #   - name: Build Application
+  #     run: npm run build
       
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v6.0.0
-      with: 
-        name: build-${{GITHUB.RUN_ID}}
-        path: build
+  #   - name: Upload a Build Artifact
+  #     uses: actions/upload-artifact@v6.0.0
+  #     with: 
+  #       name: build-${{GITHUB.RUN_ID}}
+  #       path: build
       
