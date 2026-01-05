@@ -36,8 +36,7 @@ jobs:
   sonar-scan:
     name: Static Code Analysis (SonarQube)
     # needs: lint
-    runs-on: agent_vinod
-
+    runs-on: [self-hosted, agent_vinod]
     steps:
       # - name: Checkout code
       #   uses: actions/checkout@v4
