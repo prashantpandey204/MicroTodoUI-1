@@ -36,19 +36,18 @@ jobs:
   sonar-scan:
     name: Static Code Analysis (SonarQube)
     # needs: lint
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
-        with:
-          args: >
-            -Dsonar.projectKey=MicroTodoUI
-            -Dsonar.host.url=http://localhost:9000
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
+          SONAR_HOST_URL: https://sonarcloud.io
+          SONAR_ORGANIZATION: prashantpandey204   # apna org key
+          SONAR_PROJECT_KEY: MicroTodoUI-1        # apna project key
 
       # If you wish to fail your job when the Quality Gate is red, uncomment the
       # following lines. This would typically be used to fail a deployment.
