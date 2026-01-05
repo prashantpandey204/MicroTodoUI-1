@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarqube-scan-action@1a2b3c4d5e6f7g8h9i0jklmnopqrstuvwx  # use full commit SHA here
+        uses: sonarsource/sonarqube-scan-action@2d65d49c327ec8ca5ec7c6dc2af17749f5b43c596fd906501bba5a0b09edc5e2  # use full commit SHA here
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
