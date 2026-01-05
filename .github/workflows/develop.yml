@@ -38,21 +38,17 @@ jobs:
     # needs: lint
     runs-on: self-hosted
     steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
-      
-      # - name: SonarCloud Scan
-      #   uses: SonarSource/sonarcloud-github-action@v2
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
-          
       - uses: actions/checkout@v4
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: SonarSource/sonarqube-scan-action@v6
+          args: >
+            -Dsonar.projectKey=MicroTodoUI
+            -Dsonar.host.url=http://localhost:9000
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}    
+
 
       # If you wish to fail your job when the Quality Gate is red, uncomment the
       # following lines. This would typically be used to fail a deployment.
